@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>drawing</title>
   <style>
     canvas {
       border: solid 1px #333;
@@ -38,11 +38,9 @@
     canvas.addEventListener('mousemove', function (e) {
       mouse.x = e.pageX - this.offsetLeft;
       mouse.y = e.pageY - this.offsetTop;
-      console.log(mouse)
     });
 
     canvas.addEventListener('mousedown', function (e) {
-      console.log('mousedown')
       ctx.beginPath();
       ctx.moveTo(mouse.x, mouse.y);
       ctx.lineWidth = 5;
