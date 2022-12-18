@@ -35,6 +35,41 @@
       ctx.stroke();
     }
 
+    let isPainting = false;
+
+canvas.addEventListener('mousedown', function (e) {
+  isPainting = true;
+});
+
+canvas.addEventListener('mouseup', function () {
+  isPainting = false;
+});
+
+canvas.addEventListener('mousemove', function (e) {
+  if (isPainting) {
+    ctx.lineTo(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
+    ctx.stroke();
+  }
+});
+
+canvas.addEventListener('touchstart', function (e) {
+  isPainting = true;
+});
+
+canvas.addEventListener('touchend', function () {
+  isPainting = false;
+});
+
+canvas.addEventListener('touchmove', function (e) {
+  e.preventDefault();
+  if (isPainting) {
+    ctx.lineTo(e.targetTouches[0].pageX - this.offsetLeft, e.targetTouches[0].pageY - this.offsetTop);
+    ctx.stroke();
+  }
+});
+
+
+    //PCから
     canvas.addEventListener('mousemove', function (e) {
       mouse.x = e.pageX - this.offsetLeft;
       mouse.y = e.pageY - this.offsetTop;
