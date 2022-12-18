@@ -53,6 +53,27 @@
       canvas.removeEventListener('mousemove', onPaint)
     });
 
+    //スマホから
+    canvas.addEventListener('touchstart', function (e) {
+      ctx.beginPath();
+      ctx.moveTo(mouse.x, mouse.y);
+      ctx.lineWidth = 5;
+      ctx.strokeStyle = '#333';
+
+      canvas.addEventListener('touchmove', onPaint)
+    });
+
+    canvas.addEventListener('touchend', function () {
+      canvas.removeEventListener('touchmove', onPaint)
+    });
+
+    canvas.addEventListener('touchmove', function (e) {
+      e.preventDefault();
+      mouse.x = e.targetTouches[0].pageX - this.offsetLeft;
+      mouse.y = e.targetTouches[0].pageY - this.offsetTop;
+    });
+
+
     clearBtn.addEventListener('click', clear);
   </script>
 </body>
