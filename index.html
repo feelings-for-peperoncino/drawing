@@ -21,37 +21,23 @@
   </div>
 
   <script>
-    const canvas = document.getElementById('draw-area');
-    const ctx = canvas.getContext('2d');
-    const clearBtn = document.getElementById('clearBtn');
-    const mouse = { x: null, y: null };
+const canvas = document.getElementById('draw-area');
+const ctx = canvas.getContext('2d');
+const clearBtn = document.getElementById('clearBtn');
+const mouse = { x: null, y: null };
 
-    function clear() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
+function clear() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
 
-    function onPaint() {
-      ctx.lineTo(mouse.x, mouse.y);
-      ctx.stroke();
-    }
+function onPaint() {
+  ctx.lineTo(mouse.x, mouse.y);
+  ctx.stroke();
+}
 
-    let isPainting = false;
+let isPainting = false;
 
-canvas.addEventListener('mousedown', function (e) {
-  isPainting = true;
-});
-
-canvas.addEventListener('mouseup', function () {
-  isPainting = false;
-});
-
-canvas.addEventListener('mousemove', function (e) {
-  if (isPainting) {
-    ctx.lineTo(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
-    ctx.stroke();
-  }
-});
-
+// タッチイベントハンドラー
 canvas.addEventListener('touchstart', function (e) {
   isPainting = true;
 });
@@ -68,48 +54,27 @@ canvas.addEventListener('touchmove', function (e) {
   }
 });
 
+// マウスイベントハンドラー
+canvas.addEventListener('mousemove', function (e) {
+  mouse.x = e.pageX - this.offsetLeft;
+  mouse.y = e.pageY - this.offsetTop;
+});
 
-    //PCから
-    canvas.addEventListener('mousemove', function (e) {
-      mouse.x = e.pageX - this.offsetLeft;
-      mouse.y = e.pageY - this.offsetTop;
-    });
+canvas.addEventListener('mousedown', function (e) {
+  ctx.beginPath();
+  ctx.moveTo(mouse.x, mouse.y);
+  ctx.lineWidth = 5;
+  ctx.strokeStyle = '#333';
 
-    canvas.addEventListener('mousedown', function (e) {
-      ctx.beginPath();
-      ctx.moveTo(mouse.x, mouse.y);
-      ctx.lineWidth = 5;
-      ctx.strokeStyle = '#333';
+  canvas.addEventListener('mousemove', onPaint)
+});
 
-      canvas.addEventListener('mousemove', onPaint)
-    });
+canvas.addEventListener('mouseup', function () {
+  canvas.removeEventListener('mousemove', onPaint)
+});
 
-    canvas.addEventListener('mouseup', function () {
-      canvas.removeEventListener('mousemove', onPaint)
-    });
+clearBtn.addEventListener('click', clear);
 
-    //スマホから
-    canvas.addEventListener('touchstart', function (e) {
-      ctx.beginPath();
-      ctx.moveTo(mouse.x, mouse.y);
-      ctx.lineWidth = 5;
-      ctx.strokeStyle = '#333';
-
-      canvas.addEventListener('touchmove', onPaint)
-    });
-
-    canvas.addEventListener('touchend', function () {
-      canvas.removeEventListener('touchmove', onPaint)
-    });
-
-    canvas.addEventListener('touchmove', function (e) {
-      e.preventDefault();
-      mouse.x = e.targetTouches[0].pageX - this.offsetLeft;
-      mouse.y = e.targetTouches[0].pageY - this.offsetTop;
-    });
-
-
-    clearBtn.addEventListener('click', clear);
   </script>
 </body>
 
